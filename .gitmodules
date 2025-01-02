@@ -1,0 +1,15 @@
+[submodule "ThirdPartyLibraries/glfw"]
+	path = ThirdPartyLibraries/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "ThirdPartyLibraries/glm"]
+	path = ThirdPartyLibraries/glm
+	url = https://github.com/g-truc/glm.git
+[submodule "ThirdPartyLibraries/stb"]
+	path = ThirdPartyLibraries/stb
+	url = https://github.com/nothings/stb.git
+[submodule "ThirdPartyLibraries/assimp"]
+	path = ThirdPartyLibraries/assimp
+	url = https://github.com/assimp/assimp.git
+[submodule "ThirdPartyLibraries/spdlog"]
+	path = ThirdPartyLibraries/spdlog
+	url = https://github.com/gabime/spdlog.git
