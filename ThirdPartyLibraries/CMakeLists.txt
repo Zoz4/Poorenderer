@@ -1,10 +1,11 @@
-﻿# glm
+# glm
 add_subdirectory(glm)
 set( "GLM_DEFINITIONS"
-    #GLM_FORCE_MESSAGES
+    GLM_FORCE_MESSAGES
     GLM_FORCE_CXX20
     GLM_ENABLE_EXPERIMENTAL
     GLM_FORCE_SWIZZLE
+    GLM_FORCE_DEPTH_ZERO_TO_ONE
 )
 target_compile_definitions(glm PUBLIC ${GLM_DEFINITIONS})
 target_compile_options( glm 
@@ -38,3 +39,14 @@ add_subdirectory(assimp)
 
 # spdlog
 add_subdirectory(spdlog)
+## 设置 SPDLOG_ACTIVE_LEVEL 根据构建配置自动调整
+target_compile_definitions(spdlog PUBLIC 
+    $<$<CONFIG:DEBUG>:SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_DEBUG>
+    $<$<CONFIG:RELEASE>:SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_INFO>
+)
+
+
+# glad
+set(GLAD_SOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/glad")
+add_subdirectory("${GLAD_SOURCES_DIR}/cmake" glad_cmake)
+GLAD_ADD_LIBRARY(glad_gl_compatibility_33 STATIC REPRODUCIBLE API gl:compatibility=3.3)

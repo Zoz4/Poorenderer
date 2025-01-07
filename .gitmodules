@@ -13,3 +13,7 @@
 [submodule "ThirdPartyLibraries/spdlog"]
 	path = ThirdPartyLibraries/spdlog
 	url = https://github.com/gabime/spdlog.git
+
+[submodule "ThirdPartyLibraries/glad"]
+	path = ThirdPartyLibraries/glad
+	url = https://github.com/Dav1dde/glad.git
