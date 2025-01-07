@@ -1,4 +1,4 @@
-﻿# CMakeList.txt: Poorenderer 的 CMake 项目，在此处包括源代码并定义
+# CMakeList.txt: Poorenderer 的 CMake 项目，在此处包括源代码并定义
 # 项目特定的逻辑。
 cmake_minimum_required (VERSION 3.18)
 
@@ -18,20 +18,21 @@ find_package(OpenGL REQUIRED)
 add_subdirectory(ThirdPartyLibraries)
 
 # 将源代码添加到此项目的可执行文件。
-add_executable (Poorenderer  "main.cpp")
+add_executable (Poorenderer  "main.cpp" "RendererCore/Model.cpp" "RendererCore/logger.h"  "RendererCore/ShaderProgram.h" "RendererCore/BaseRenderer.cpp" "RendererCore/BaseRenderer.h")
 
 target_link_libraries(Poorenderer PRIVATE 
 	glfw
 	stb
+	glad_gl_compatibility_33
 	spdlog::spdlog
 	assimp::assimp
 	glm::glm
 	OpenGL::GL
 )
 
-# 设置资源文件目录
-set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Resources/")
-target_compile_definitions(Poorenderer PUBLIC RESOURCES_DIR="${RESOURCES_DIR}")
+# 设置文件目录
+target_compile_definitions(Poorenderer PRIVATE RESOURCES_DIR="${CMAKE_CURRENT_SOURCE_DIR}/Resources/")
+target_compile_definitions(Poorenderer PRIVATE PROJECT_ROOT="${CMAKE_SOURCE_DIR}/")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Poorenderer PROPERTY CXX_STANDARD 20)
