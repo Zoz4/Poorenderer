@@ -1,5 +1,5 @@
 #include "Model.h"
-#include "logger.h"
+#include "Logger.h"
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>

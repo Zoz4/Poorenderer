@@ -68,6 +68,7 @@ namespace Poorenderer {
 		void VertexShaderStage();
 
 		void PrimitiveAssembly();
+		void Clipping();
 		void PerspectiveDivide();
 		void ViewportTransform();
 
@@ -75,8 +76,8 @@ namespace Poorenderer {
 
 		virtual void Rasterization();
 
-		//void RasterizationTriangle();
-		void FragmentShaderStage();
+		// void RasterizationTriangle();
+		// void FragmentShaderStage();
 
 		inline void* GetColorAttachmentData() { return colorAttachment.data(); }
 
@@ -88,7 +89,6 @@ namespace Poorenderer {
 		// Interpolate Properties by Barycentric (Get ShaderVaryings)
 		void Interpolate(const std::array<glm::vec3,3> propertiesIn, glm::vec3 &propertyOut, const glm::vec4& barycentric);
 
-	private:
 
 		Viewport viewport;
 

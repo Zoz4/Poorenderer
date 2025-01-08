@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <memory>
-#include "logger.h"
+#include "Logger.h"
 
 namespace Poorenderer {
 

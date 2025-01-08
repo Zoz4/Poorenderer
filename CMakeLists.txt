@@ -18,7 +18,7 @@ find_package(OpenGL REQUIRED)
 add_subdirectory(ThirdPartyLibraries)
 
 # 将源代码添加到此项目的可执行文件。
-add_executable (Poorenderer  "main.cpp" "RendererCore/Model.cpp" "RendererCore/logger.h"  "RendererCore/ShaderProgram.h" "RendererCore/BaseRenderer.cpp" "RendererCore/BaseRenderer.h")
+add_executable (Poorenderer  "main.cpp" "RendererCore/Model.cpp" "RendererCore/Logger.h"  "RendererCore/ShaderProgram.h" "RendererCore/BaseRenderer.cpp" "RendererCore/BaseRenderer.h" "RendererCore/ScanLineRenderer.cpp")
 
 target_link_libraries(Poorenderer PRIVATE 
 	glfw

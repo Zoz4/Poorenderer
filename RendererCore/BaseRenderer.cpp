@@ -1,6 +1,6 @@
 #include "BaseRenderer.h"
 #include "Model.h"
-#include "logger.h"
+#include "Logger.h"
 #include "BoundingBox.h"
 
 #include <array>
@@ -82,6 +82,31 @@ namespace Poorenderer {
 			primitives[i].indices[1] = indices[i * 3 + 1];
 			primitives[i].indices[2] = indices[i * 3 + 2];
 			primitives[i].discard = false;
+		}
+	}
+	void BaseRenderer::Clipping()
+	{	
+		// Simplest Clipping
+		// If a triange has a point outside the camera frustum,
+		// the whole triangle will be discarded! 
+		for (size_t i = 0; i < primitives.size();++i) {
+			Primitive& triangle = primitives[i];
+			std::array<glm::vec4, 3> verts = {
+				clipPositions[triangle.indices[0]],
+				clipPositions[triangle.indices[1]],
+				clipPositions[triangle.indices[2]],
+			};
+
+			for (const auto& clipPos : verts) {
+				if (clipPos.w < clipPos.x || clipPos.w < -clipPos.x ||
+					clipPos.w < clipPos.y || clipPos.w < -clipPos.y ||
+					clipPos.w < clipPos.z || clipPos.w < -clipPos.z) {
+					triangle.discard = true;
+					LOGD("Clip Triangle id: {}", i);
+					break;
+				}
+			}
+
 		}
 	}
 	void BaseRenderer::PerspectiveDivide()
@@ -187,11 +212,6 @@ namespace Poorenderer {
 		}
 		stbi_flip_vertically_on_write(true);
 		stbi_write_png(RESOURCES_DIR"output.png", viewport.width, viewport.height, 3, colorAttachment.data(), viewport.width*3);
-	}
-
-	void BaseRenderer::FragmentShaderStage()
-	{
-
 	}
 
 	BoundingBox BaseRenderer::CalculateTriangleBoundingBox(const Primitive& triangle, float width, float height)
