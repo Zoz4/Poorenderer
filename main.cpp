@@ -22,11 +22,11 @@ int main(void)
 
 	//Poorenderer::Model model(RESOURCES_DIR "triangle0.obj");
 	//Poorenderer::Model model(RESOURCES_DIR "bunny.obj");
-	Poorenderer::Model model(RESOURCES_DIR "happy_buddha.obj");
+	Poorenderer::Model model(RESOURCES_DIR "xyzrgb_dragon.obj");
 	//Poorenderer::Model model(RESOURCES_DIR "xyzrgb_dragon.obj");
 
     std::shared_ptr<Poorenderer::BaseRenderer> render = std::make_shared<Poorenderer::HierarchicalZBufferRenderer>();
-	render->SetOutputFileName("happy_buddha_SimpleHierarchicalZBuffer.png");
+	render->SetOutputFileName("xyzrgb_dragon_CompleteHierarchicalZBuffer.png");
 
 	const int WIDTH = 800;
 	const int HEIGHT = 600;
@@ -49,8 +49,8 @@ int main(void)
 	Poorenderer::ShaderUniforms uniform{};
 	//uniform.model = glm::mat4(1.0); // triangle.obj
 	//uniform.model = glm::scale(glm::translate(glm::mat4(1.0), glm::vec3(0.35, -1, 0)), glm::vec3(10, 10, 10)); // bunny.obj
-	uniform.model = glm::scale(glm::translate(glm::mat4(1.0), glm::vec3(0, -1.5, 0)), glm::vec3(10, 10, 10)); // happy_buddha.obj
-	//uniform.model = glm::scale(glm::translate(glm::mat4(1.0), glm::vec3(0, 0, 0)), glm::vec3(0.012, 0.012, 0.012)); // xyzrgb_dragon.obj
+	//uniform.model = glm::scale(glm::translate(glm::mat4(1.0), glm::vec3(0, -1.5, 0)), glm::vec3(10, 10, 10)); // happy_buddha.obj
+	uniform.model = glm::scale(glm::translate(glm::mat4(1.0), glm::vec3(0, 0, 0)), glm::vec3(0.012, 0.012, 0.012)); // xyzrgb_dragon.obj
 	uniform.view = glm::lookAt(eye, center, up);
 	uniform.projection = glm::perspective(fov, aspect, near, far);
 	uniform.inverseTransposeModel = glm::mat3(glm::transpose(glm::inverse(uniform.model)));
