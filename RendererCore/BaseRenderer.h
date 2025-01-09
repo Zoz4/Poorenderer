@@ -59,7 +59,7 @@ namespace Poorenderer {
 		*/
 
 
-		void SetAttachments(size_t width, size_t height);
+		virtual void SetAttachments(size_t width, size_t height);
 
 		void SetViewport(int x, int y, int width, int height);
 		void SetVertexArrayObject(const Model& model);
@@ -114,7 +114,11 @@ namespace Poorenderer {
 		// Framebuffer
 		std::vector<uint8_t> colorAttachment;
 		std::vector<float> depthBuffer;
-		
+
+        // For Testing
+		std::string FileName = "output.png";
+	public:
+		inline void SetOutputFileName(const std::string& name) { FileName = name; }
 		
 	};
 

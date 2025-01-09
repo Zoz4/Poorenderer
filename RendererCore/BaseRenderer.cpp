@@ -155,8 +155,8 @@ namespace Poorenderer {
 			LOGD("Xmin:{} Xmax:{}", bound.min.x, bound.max.x);
 			LOGD("Ymin:{} Ymax:{}", bound.min.y, bound.max.y);
 
-			for (int x = bound.min.x; x < bound.max.x; ++x) {
-				for (int y = bound.min.y; y < bound.max.y; ++y) {
+			for (int x = bound.min.x; x <= bound.max.x; ++x) {
+				for (int y = bound.min.y; y <= bound.max.y; ++y) {
 					
 					// (x, y): fragment coordinate
 					// (x+0.5, y+0.5): sample point

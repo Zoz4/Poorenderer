@@ -70,7 +70,6 @@ namespace Poorenderer{
 	public:
 		friend class Polygon;
 		void Rasterization() override;
-		std::string FileName = "output_ScanLineZBuffer.png";
 	private:
 		std::vector<std::list<Polygon>> PolygonsTable;		   // 多边形表 PolygonsTable
 		std::unordered_map<size_t, Polygon> ActivePolygonTable;// 活化多边形表 <Polygon.id, Polygon>
