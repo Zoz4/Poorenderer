@@ -7,8 +7,11 @@ namespace Poorenderer {
 
 	void ScanLineRenderer::Rasterization()
 	{
+		
 		LOGI("ScanLineRenderer Rasterization..");
-		CreatePolygonsTable();
+		auto start = std::chrono::high_resolution_clock::now();
+		if(PolygonsTable.empty())//第一次光栅化
+			CreatePolygonsTable();
 
 		// 对每条扫描线
 		for (int y = viewport.height-1; y >= 0; --y)
@@ -143,6 +146,9 @@ namespace Poorenderer {
 
 		}// 遍历扫描线结束
 
+		auto current = std::chrono::high_resolution_clock::now();
+		double elapsed = std::chrono::duration<double, std::milli>(current - start).count();
+		LOGI("ScanLineRenderer totalTime:{} ms", elapsed);
 		stbi_flip_vertically_on_write(true);
 		stbi_write_png((RESOURCES_DIR+FileName).c_str(), viewport.width, viewport.height, 3, colorAttachment.data(), viewport.width * 3);
 	}

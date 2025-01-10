@@ -49,7 +49,7 @@ namespace Poorenderer {
 		* Draw 
 			* VertexShaderStage [ ✓ ]
 			* PrimitiveAssembly [ ✓ ]
-			* Clipping			[  ]: [TODO]: Build BVH and do clipping by Frustum 
+			* Clipping			[  ]
 			* PerspectiveDivide [ ✓ ]
 			* ViewportTransform [ ✓ ]
 			* FaceCulling		[  ]

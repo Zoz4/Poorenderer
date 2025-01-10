@@ -13,6 +13,8 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
+
+
 int main(void)
 {
 	//spdlog::set_pattern(LOGGER_FORMAT);
@@ -20,13 +22,14 @@ int main(void)
 
 	LOGI("Start...");
 
-	//Poorenderer::Model model(RESOURCES_DIR "triangle0.obj");
-	//Poorenderer::Model model(RESOURCES_DIR "bunny.obj");
-	Poorenderer::Model model(RESOURCES_DIR "xyzrgb_dragon.obj");
+	//Poorenderer::Model model(RESOURCES_DIR "triangle.obj");
+	Poorenderer::Model model(RESOURCES_DIR "bunny.obj");
+	//Poorenderer::Model model(RESOURCES_DIR "homer.obj"); 
+	//Poorenderer::Model model(RESOURCES_DIR "happy_buddha.obj");
 	//Poorenderer::Model model(RESOURCES_DIR "xyzrgb_dragon.obj");
 
     std::shared_ptr<Poorenderer::BaseRenderer> render = std::make_shared<Poorenderer::HierarchicalZBufferRenderer>();
-	render->SetOutputFileName("xyzrgb_dragon_CompleteHierarchicalZBuffer.png");
+	render->SetOutputFileName("output.png");
 
 	const int WIDTH = 800;
 	const int HEIGHT = 600;
@@ -48,9 +51,10 @@ int main(void)
 
 	Poorenderer::ShaderUniforms uniform{};
 	//uniform.model = glm::mat4(1.0); // triangle.obj
-	//uniform.model = glm::scale(glm::translate(glm::mat4(1.0), glm::vec3(0.35, -1, 0)), glm::vec3(10, 10, 10)); // bunny.obj
-	//uniform.model = glm::scale(glm::translate(glm::mat4(1.0), glm::vec3(0, -1.5, 0)), glm::vec3(10, 10, 10)); // happy_buddha.obj
-	uniform.model = glm::scale(glm::translate(glm::mat4(1.0), glm::vec3(0, 0, 0)), glm::vec3(0.012, 0.012, 0.012)); // xyzrgb_dragon.obj
+	uniform.model = glm::scale(glm::translate(glm::rotate(glm::mat4(1.0), glm::radians(0.f), glm::vec3(0.f, 1.f, 0.f)), glm::vec3(0.35, -1, 0)), glm::vec3(10, 10, 10)); // bunny.obj
+	//uniform.model = glm::scale(glm::translate(glm::rotate(glm::mat4(1.0), glm::radians(0.f), glm::vec3(0.f, 1.f, 0.f)), glm::vec3(-0.5, -0.5, 1.1)), glm::vec3(1, 1, 1)); // homer.obj
+	//uniform.model = glm::scale(glm::translate(glm::rotate(glm::mat4(1.0), glm::radians(0.f), glm::vec3(0.f, 1.f, 0.f)), glm::vec3(0, -1.5, 0)), glm::vec3(10, 10, 10)); // happy_buddha.obj
+	//uniform.model = glm::scale(glm::translate(glm::rotate(glm::mat4(1.0), glm::radians(230.f), glm::vec3(0.f, 1.f, 0.f)), glm::vec3(-0.5, 0, 0)), glm::vec3(0.012, 0.012, 0.012)); // xyzrgb_dragon.obj
 	uniform.view = glm::lookAt(eye, center, up);
 	uniform.projection = glm::perspective(fov, aspect, near, far);
 	uniform.inverseTransposeModel = glm::mat3(glm::transpose(glm::inverse(uniform.model)));
@@ -65,9 +69,15 @@ int main(void)
 		render->Clipping();
 		render->PerspectiveDivide();
 		render->ViewportTransform();
-		LOGI("Rasterization Start....");
+		LOGI("First Rasterization Start....");
 		render->Rasterization();
-		LOGI("Rasterization End....");
+		LOGI("First Rasterization End....\n");
+		LOGI("Second Rasterization Start....");
+		render->Rasterization();
+		LOGI("Second Rasterization End....");
+		LOGI("Third Rasterization Start....");
+		render->Rasterization();
+		LOGI("Third Rasterization End....");
 	}
 
 	LOGI("End...");

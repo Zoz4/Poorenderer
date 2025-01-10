@@ -1,9 +1,9 @@
 #include "HierarchicalZBufferRenderer.h"
 #include "BoundingBox.h"
 
-#include <stb_image_write.h>
 #include <memory>
 #include <array>
+#include <stb_image_write.h>
 
 namespace Poorenderer {
 	void HierarchicalZBufferRenderer::SetAttachments(size_t width, size_t height)
@@ -14,6 +14,7 @@ namespace Poorenderer {
 	}
 	void HierarchicalZBufferRenderer::Rasterization()
 	{
+		auto start = std::chrono::high_resolution_clock::now();
 		if (!bUseBVH) {
 			for (auto& triangle : primitives) {
 				if (triangle.discard) {
@@ -98,9 +99,15 @@ namespace Poorenderer {
 		}
 		else {
 			LOGI("Use BVHTree");
-			bvhTree = std::make_shared<BVHTree>(*this);
+			if (!bvhTree)
+			{
+				bvhTree = std::make_shared<BVHTree>(*this);
+			}
 			TransverseBVHNode(bvhTree->root.get());
 		}
+		auto current = std::chrono::high_resolution_clock::now();
+		double elapsed = std::chrono::duration<double, std::milli>(current - start).count();
+		LOGI("Complete HierarchicalZBufferRenderer totalTime:{} ms", elapsed);
 		stbi_flip_vertically_on_write(true);
 		stbi_write_png((RESOURCES_DIR + FileName).c_str(), viewport.width, viewport.height, 3, colorAttachment.data(), viewport.width * 3);
 	}
@@ -113,11 +120,16 @@ namespace Poorenderer {
 	}
 	void HierarchicalZBufferRenderer::TransverseBVHNode(BVHNode* Node)
 	{
-
+		if (!Node) return;
 		if (depthMipmap.IsOccluded(Node->bounds, Node->bounds.min.z))
 		{
 			LOGD("The Node is Occluded! numTriangles:{}", Node->triangles.size());
 			return;
+		}
+		if (!Node->isLeaf)
+		{
+			TransverseBVHNode(Node->left.get());
+			TransverseBVHNode(Node->right.get());
 		}
 		for (auto& primitiveId : Node->triangles) {
 
@@ -195,14 +207,6 @@ namespace Poorenderer {
 				}
 			}
 		}
-
-
-		if (!Node->isLeaf)
-		{
-			TransverseBVHNode(Node->left.get());
-			TransverseBVHNode(Node->right.get());
-		}
-
 
 	}
 }

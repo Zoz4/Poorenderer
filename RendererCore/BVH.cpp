@@ -13,6 +13,10 @@ namespace Poorenderer {
 				triangles.push_back(i);
 			}
 		}
+		if (triangles.size() == 0) {
+			LOGI("No Triangles in Screen");
+			return;
+		}
 		root = BuildBVHNode(0, triangles.size(), triangles, renderer);
 		LOGI("Build Finished!");
 	}

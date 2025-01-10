@@ -5,6 +5,7 @@
 
 #include <array>
 #include <limits>
+#include <chrono>
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb_image_write.h>
@@ -145,6 +146,7 @@ namespace Poorenderer {
 	}
 	void BaseRenderer::Rasterization()
 	{
+		auto start = std::chrono::high_resolution_clock::now();
 		for (auto& triangle : primitives) {
 			
 			// Case: Polygons Mode == GL_FILL (Only Triangle)
@@ -210,8 +212,11 @@ namespace Poorenderer {
 				}
 			}
 		}
+		auto current = std::chrono::high_resolution_clock::now();
+		double elapsed = std::chrono::duration<double, std::milli>(current - start).count();
+		LOGI("BaseRenderer totalTime:{} ms", elapsed);
 		stbi_flip_vertically_on_write(true);
-		stbi_write_png(RESOURCES_DIR"output.png", viewport.width, viewport.height, 3, colorAttachment.data(), viewport.width*3);
+		stbi_write_png((RESOURCES_DIR + FileName).c_str(), viewport.width, viewport.height, 3, colorAttachment.data(), viewport.width*3);
 	}
 
 	BoundingBox BaseRenderer::CalculateTriangleBoundingBox(const Primitive& triangle, float width, float height)
